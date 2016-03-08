@@ -19,13 +19,11 @@ import kafka.producer.ProducerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.twodotsolutions.kafka.api.Message;
-
 public class MessageProducer implements AutoCloseable {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(MessageProducer.class);
 
-	private Producer<UUID, Message> producer;
+	private Producer<UUID, String> producer;
 	private String topic;
 
 	public MessageProducer(String kafkaBrokerList, String topic)
@@ -58,29 +56,29 @@ public class MessageProducer implements AutoCloseable {
 		this.topic = topic;
 
 		ProducerConfig pc = new ProducerConfig(props);
-		producer = new Producer<UUID, Message>(pc);
+		producer = new Producer<UUID, String>(pc);
 	}
 
-	public void create(List<Message> events)
+	public void create(List<String> events)
 			throws FailedToSendMessageException {
 		LOGGER.debug("creating list:{}", events);
 
-		List<KeyedMessage<UUID, Message>> messages = new ArrayList<KeyedMessage<UUID, Message>>();
-		for (Message Message : events) {
+		List<KeyedMessage<UUID, String>> messages = new ArrayList<KeyedMessage<UUID, String>>();
+		for (String message : events) {
 			// Note, I am using the UUID, Message as an example. In this case
 			// you would not want to
 			// randomly generate a new UUID, but use some unique key for your
 			// object. This was just
 			// an example of how to create a custom serializer, which in this
 			// was case UUIDSerializer!
-			messages.add(new KeyedMessage<UUID, Message>(this.topic, UUID
-					.randomUUID(), Message));
+			messages.add(new KeyedMessage<UUID, String>(this.topic, UUID
+					.randomUUID(), message));
 		}
 		producer.send(messages);
 	}
 
-	public void create(Message Message) throws FailedToSendMessageException {
-		create(Arrays.asList(Message));
+	public void create(String message) throws FailedToSendMessageException {
+		create(Arrays.asList(message));
 	}
 
 	public void close() {

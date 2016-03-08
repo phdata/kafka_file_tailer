@@ -65,14 +65,8 @@ public class LoadDataCommand extends
 
 		@Override
 		public void handle(String line) {
-			Message message = null;
-			try {
-				message = Message.parse(line);
-			} catch (IOException e) {
-				LOGGER.error("error parsing line: {}", line);
-			}
-			if (null != message) {
-				producer.create(message);
+			if (null != line) {
+				producer.create(line);
 			} else {
 				LOGGER.warn("skipping event");
 			}
