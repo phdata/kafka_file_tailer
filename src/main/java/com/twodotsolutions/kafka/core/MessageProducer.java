@@ -34,7 +34,7 @@ public class MessageProducer implements AutoCloseable {
 		LOGGER.debug("Creating Message Producer");
 
 		Properties props = new Properties();
-		props.put("serializer.class", MessageSerializer.class.getName());
+    props.put("serializer.class", "kafka.serializer.StringEncoder");
 		props.put("key.serializer.class", UUIDSerializer.class.getName());
 		props.put("metadata.broker.list", kafkaBrokerList);
 

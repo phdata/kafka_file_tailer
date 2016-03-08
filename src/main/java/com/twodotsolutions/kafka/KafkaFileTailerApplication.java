@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.twodotsolutions.kafka.cli.LoadDataCommand;
-import com.twodotsolutions.kafka.cli.ReadDataCommand;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
@@ -33,7 +32,6 @@ public class KafkaFileTailerApplication  extends Service<KafkaFileTailerConfigur
 		
 		bootstrap.setName("kafka-file-tailer");
 		bootstrap.addCommand(new LoadDataCommand());
-		bootstrap.addCommand(new ReadDataCommand());
 	}
 
 	@Override
